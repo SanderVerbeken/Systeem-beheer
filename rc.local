@@ -1,5 +1,5 @@
 #! /bin/bash
 
-/etc/add-my-arp.sh
+/etc/scripts/add-my-arp.sh
 
 exit 0
