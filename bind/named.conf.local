@@ -1,8 +1,15 @@
 //
 // Do any local configuration here
 //
-
 // Consider adding the 1918 zones here, if they are not used in your
 // organization
 //include "/etc/bind/zones.rfc1918";
 
+zone "sander-verbeken.sb.uclllabs.be" {
+	type master;
+	file "etc/bind/zones/db.sander-verbeken.sb.uclllabs.be";
+	notify yes;
+	allow-transfer { 193.191.176.254; 193.191.177.4; };
+	auto-dnssec maintain;
+	inline-signing yes;
+};
