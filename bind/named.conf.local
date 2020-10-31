@@ -10,6 +10,4 @@ zone "sander-verbeken.sb.uclllabs.be" {
 	file "etc/bind/zones/db.sander-verbeken.sb.uclllabs.be";
 	notify yes;
 	allow-transfer { 193.191.176.254; 193.191.177.4; };
-	auto-dnssec maintain;
-	inline-signing yes;
 };

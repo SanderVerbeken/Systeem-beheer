@@ -1,10 +1,10 @@
-$TTL	604800
+$TTL	900
 @	IN	SOA	ns.sander-verbeken.sb.uclllabs.be. (
-			      4		; Serial
-			     5M		; Refresh
-			     5M		; Retry
-			     5M		; Expire
-			     5M )	; Negative Cache TTL
+			      1		; Serial
+			    900		; Refresh
+			    900		; Retry
+			 604800		; Expire
+			    900 )	; Negative Cache TTL
 ;
 
 ; Name servers
@@ -12,14 +12,10 @@ $TTL	604800
 @	IN	NS	ns1.uclllabs.be.
 @       IN      NS      ns2.uclllabs.be.
 
-subzone IN	NS	ns
-
-; Records for name servers
-
-ns	IN	A	193.191.177.206
-
 ; Other A records
 
+ns	IN	A	193.191.177.206
 @       IN      A       193.191.177.206
-www		CNAME	193.191.177.206
+@	IN	A	fe80::d40d:3ff:feec:2c30
+www		CNAME	@
 test		A	193.191.177.254
