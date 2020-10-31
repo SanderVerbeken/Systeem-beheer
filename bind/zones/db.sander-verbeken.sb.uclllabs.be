@@ -12,10 +12,14 @@ $TTL	604800
 @	IN	NS	ns1.uclllabs.be.
 @       IN      NS      ns2.uclllabs.be.
 
+subzone IN	NS	ns
+
 ; Records for name servers
+
 ns	IN	A	193.191.177.206
-@	IN	A	193.191.177.206
 
 ; Other A records
-www	IN	A	193.191.177.206
+
+@       IN      A       193.191.177.206
+www		CNAME	193.191.177.206
 test		A	193.191.177.254
