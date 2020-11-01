@@ -1,6 +1,6 @@
 $TTL 300
 @ IN SOA ns.sander-verbeken.sb.uclllabs.be. host.sander-verbeken.sb.uclllabs.be. (
-15 ; Serial
+16 ; Serial
 300 ; Refresh
 300 ; Retry
 3000 ; Expire
@@ -9,6 +9,7 @@ $TTL 300
 @       IN      NS ns.sander-vebreken.sb.uclllabs.be.
 @       IN      NS ns1.uclllabs.be.
 @       IN      NS ns2.uclllabs.be.
+@	IN	NS ns.tim-vanherwegen.sb.uclllabs.be.
 ; ADDRESSES
 @       IN      A 193.191.177.206
 ns      IN      A 193.191.177.206
