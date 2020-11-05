@@ -1,18 +1,21 @@
 #! /bin/sh
 
+#Is er een vriable aanwezig? zo niet dan geeft men een error message terug
 if [ $# -eq 0 ]; then
     echo "No arguments provided, you need to give us a subzone to create: zone "\""SUBZONE.sander-verbeken.sb.uclllabs.be"\"" { ..."
     exit 1
 fi
 
+#In named.conf.mrt-zones wordt een nieuwe zone geadd aan de hand van de variable naam die mee wordt gegeven
 echo "zone "\""$1.sander-verbeken.sb.uclllabs.be"\"" {
 	type master;
         file "\""/etc/bind/zones/mrt-zones/db.$1.sander-verbeken.sb.uclllabs.be"\"";
 };" >> /etc/bind/named.conf.mrt-zones
 
+#Als in de mrt-zones dir nog geen zone file bestaat met deze naam dan wordt deze aangemaakt
 touch /etc/bind/zones/mrt-zones/db.$1.sander-verbeken.sb.uclllabs.be
 
-
+#SOA record van deze zonefile aangemaakt en in de juiste zonefile gestopt
 echo "\$TTL 300
 @ IN SOA $1.sander-verbeken.sb.uclllabs.be. host.sander-verbeken.sb.uclllabs.be. (
 1 ; Serial
@@ -25,4 +28,10 @@ echo "\$TTL 300
 
 " > /etc/bind/zones/mrt-zones/db.$1.sander-verbeken.sb.uclllabs.be
 
+#Men moet een ns record toevoegen voor delegatie, om deze veranderingen door te laten gaan moeten we uiteraard ook de serial number verhogen, anders worden veranderingen niet door gegeven.
+TEMPSERIALNUMB=$(grep -Po '(?<=SERIALNUMB=).*' /etc/bind/zones/db.sander-verbeken)
+NEWSERIALNUMB=$((TEMPSERIALNUMB+1))
+sed -i "s/SERIALNUMB=.*/SERIALNUMB=$NEWSERIALNUMB/g" /etc/bind/zones/db.sander-verbeken
 
+#NS record toevoegen aan mijn al bestaande zone file (db.sander-verbeken)
+echo "$1	IN	NS	ns" >> /etc/bind/zones/db.sander-verbeken

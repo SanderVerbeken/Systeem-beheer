@@ -1,0 +1,9 @@
+#! /bin/sh
+
+TEMPSERIALNUMB=$(grep -Po '(?<=SERIALNUMB=).*' /etc/bind/zones/db.sander-verbeken)
+echo $TEMPSERIALNUMB
+NEWSERIALNUMB=$((TEMPSERIALNUMB+1))
+echo $NEWSERIALNUMB
+sed -i "s/SERIALNUMB=.*/SERIALNUMB=$NEWSERIALNUMB/g" /etc/bind/zones/db.sander-verbeken
+# cat /etc/bind/zones/db.sander-verbeken
+
