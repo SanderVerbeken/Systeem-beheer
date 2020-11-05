@@ -24,14 +24,17 @@ echo "\$TTL 300
 3000 ; Expire
 300) ; Default TTL
 ; NAME SERVERS
-@       IN      NS ns.sander-vebreken.sb.uclllabs.be
+@       IN      NS ns.sander-vebreken.sb.uclllabs.be.
 
 " > /etc/bind/zones/mrt-zones/db.$1.sander-verbeken.sb.uclllabs.be
 
 #Men moet een ns record toevoegen voor delegatie, om deze veranderingen door te laten gaan moeten we uiteraard ook de serial number verhogen, anders worden veranderingen niet door gegeven.
 TEMPSERIALNUMB=$(grep -Po '(?<=SERIALNUMB=).*' /etc/bind/zones/db.sander-verbeken)
 NEWSERIALNUMB=$((TEMPSERIALNUMB+1))
-sed -i "s/SERIALNUMB=.*/SERIALNUMB=$NEWSERIALNUMB/g" /etc/bind/zones/db.sander-verbeken
+sed -i "s/$TEMPSERIALNUMB/$NEWSERIALNUMB/g" /etc/bind/zones/db.sander-verbeken
 
 #NS record toevoegen aan mijn al bestaande zone file (db.sander-verbeken)
 echo "$1	IN	NS	ns" >> /etc/bind/zones/db.sander-verbeken
+
+#Nu dat alles is ingesteld en aangepast moeten we de service restarten om alle aanpassingen door te geven.
+systemctl restart bind9.service
