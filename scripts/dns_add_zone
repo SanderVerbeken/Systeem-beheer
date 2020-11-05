@@ -1,3 +1,28 @@
 #! /bin/sh
-echo 'hallo'
+
+if [ $# -eq 0 ]; then
+    echo "No arguments provided, you need to give us a subzone to create: zone "\""SUBZONE.sander-verbeken.sb.uclllabs.be"\"" { ..."
+    exit 1
+fi
+
+echo "zone "\""$1.sander-verbeken.sb.uclllabs.be"\"" {
+	type master;
+        file "\""/etc/bind/zones/mrt-zones/db.$1.sander-verbeken.sb.uclllabs.be"\"";
+};" >> /etc/bind/named.conf.mrt-zones
+
+touch /etc/bind/zones/mrt-zones/db.$1.sander-verbeken.sb.uclllabs.be
+
+
+echo "\$TTL 300
+@ IN SOA $1.sander-verbeken.sb.uclllabs.be. host.sander-verbeken.sb.uclllabs.be. (
+1 ; Serial
+300 ; Refresh
+300 ; Retry
+3000 ; Expire
+300) ; Default TTL
+; NAME SERVERS
+@       IN      NS ns.sander-vebreken.sb.uclllabs.be
+
+" > /etc/bind/zones/mrt-zones/db.$1.sander-verbeken.sb.uclllabs.be
+
 

@@ -1,0 +1,11 @@
+zone "foo.sander-verbeken.sb.uclllabs.be" {
+	type master;
+        file "/etc/bind/zones/db.test";
+};
+zone "subzonewae8uu.sander-verbeken.sb.uclllabs.be" {
+	type master;
+        file "/etc/bind/zones/db.test";
+};
+
+SERIALNUMB = 5
+

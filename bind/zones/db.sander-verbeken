@@ -15,3 +15,8 @@ $TTL 300
 ns      IN      A 193.191.177.206
 www     IN      A 193.191.177.206
 test    IN      A 193.191.177.254
+
+SERIALNUMB=16
+
+;Added by mrt
+
