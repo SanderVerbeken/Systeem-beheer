@@ -13,14 +13,15 @@ if [ $1 = "-t" ]; then
 		"A") echo "A record given"
 			if [ $# -eq 5 ]; then
 				echo "you have 5 arguments, good"
-				FILE=/etc/bind/zones/mrt-zones/db.$5
+				FILE=/etc/bind/zones/db.$5
 				if [ -f $FILE ]; then
 					echo "zone file exists"
-					echo "$3	IN	A	$4" >> /etc/bind/zones/mrt-zones/db.$5
+					echo "$3	IN	A	$4" >> /etc/bind/zones/db.$5
 
-					TEMPSERIALNUMB=$(grep -Po '(?<=SERIALNUMB=).*' /etc/bind/zones/mrt-zones/db.$5)
+					TEMPSERIALNUMB=$(grep -Po '(?<=SERIALNUMB=).*' /etc/bind/zones/db.$5)
 					NEWSERIALNUMB=$((TEMPSERIALNUMB+1))
-					sed -i "s/$TEMPSERIALNUMB/$NEWSERIALNUMB/g" /etc/bind/zones/mrt-zones/db.$5
+					sed -i "s/$TEMPSERIALNUMB/$NEWSERIALNUMB/g" /etc/bind/zones/db.$5
+					systemctl restart bind9.service
 
 					exit 1
 				else 	echo "$5 is not an existing zone"
@@ -35,15 +36,15 @@ if [ $1 = "-t" ]; then
 		"CNAME") echo "CNAME given"
 			if [ $# -eq 4 ]; then
 				echo "you have 4 arguments, good"
-				FILE=/etc/bind/zones/mrt-zones/db.$4
+				FILE=/etc/bind/zones/db.$4
 				if [ -f "$FILE" ]; then
                                         echo "zone file exists"
 
-					echo "$3		CNAME	@" >> /etc/bind/zones/mrt-zones/db.$4
+					echo "$3		CNAME	@" >> /etc/bind/zones/db.$4
 
-                                        TEMPSERIALNUMB=$(grep -Po '(?<=SERIALNUMB=).*' /etc/bind/zones/mrt-zones/db.$4)                                        NEWSERIALNUMB=$((TEMPSERIALNUMB+1))
-                                        sed -i "s/$TEMPSERIALNUMB/$NEWSERIALNUMB/g" /etc/bind/zones/mrt-zones/db.$4
-
+                                        TEMPSERIALNUMB=$(grep -Po '(?<=SERIALNUMB=).*' /etc/bind/zones/db.$4)                                        NEWSERIALNUMB=$((TEMPSERIALNUMB+1))
+                                        sed -i "s/$TEMPSERIALNUMB/$NEWSERIALNUMB/g" /etc/bind/zones/db.$4
+					systemctl restart bind9.service
 
                                         exit 1
                                 else    echo "$4 is not an existing zone"
@@ -58,9 +59,17 @@ if [ $1 = "-t" ]; then
 		"MX") echo "MX record given"
 			if [ $# -eq 5 ]; then
 				echo "you have 5 arguments, good"
-				FILE=/etc/bind/zones/mrt-zones/db.$5
+				FILE=/etc/bind/zones/db.$5
 				if [ -f "$FILE" ]; then
                                         echo "zone file exists"
+
+					echo "@		IN      MX      $3.$5." >> /etc/bind/zones/db.$5
+					echo "$3	IN	A	$4" >> /etc/bind/zones/db.$5
+
+                                        TEMPSERIALNUMB=$(grep -Po '(?<=SERIALNUMB=).*' /etc/bind/zones/db.$5)
+                                        NEWSERIALNUMB=$((TEMPSERIALNUMB+1))
+                                        sed -i "s/$TEMPSERIALNUMB/$NEWSERIALNUMB/g" /etc/bind/zones/db.$5
+					systemctl restart bind9.service
 
                                         exit 1
                                 else    echo "$5 is not an existing zone"
@@ -77,14 +86,15 @@ if [ $1 = "-t" ]; then
 else 	echo "first no '-t' was given, i prosume you add an A record then"
 	if [ $# -eq  3 ]; then
 		echo "you have 3 arguments, good"
-		FILE=/etc/bind/zones/mrt-zones/db.$3
+		FILE=/etc/bind/zones/db.$3
                                 if [ -f $FILE ]; then
                                         echo "zone file exists"
 
-                                        echo "$1	IN      A       $2" >> /etc/bind/zones/mrt-zones/db.$3
+                                        echo "$1	IN      A       $2" >> /etc/bind/zones/db.$3
 
-                                        TEMPSERIALNUMB=$(grep -Po '(?<=SERIALNUMB=).*' /etc/bind/zones/mrt-zones/db.$3)                                        NEWSERIALNUMB=$((TEMPSERIALNUMB+1))
-                                        sed -i "s/$TEMPSERIALNUMB/$NEWSERIALNUMB/g" /etc/bind/zones/mrt-zones/db.$3
+                                        TEMPSERIALNUMB=$(grep -Po '(?<=SERIALNUMB=).*' /etc/bind/zones/db.$3)                                        NEWSERIALNUMB=$((TEMPSERIALNUMB+1))
+                                        sed -i "s/$TEMPSERIALNUMB/$NEWSERIALNUMB/g" /etc/bind/zones/db.$3
+					systemctl restart bind9.service
 
                                         exit 1
                                 else    echo "$3 is not an existing zone"
