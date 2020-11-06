@@ -63,7 +63,7 @@ if [ $1 = "-t" ]; then
 				if [ -f "$FILE" ]; then
                                         echo "zone file exists"
 
-					echo "@		IN      MX      $3.$5." >> /etc/bind/zones/db.$5
+					echo "@		IN      MX      10 $3.$5." >> /etc/bind/zones/db.$5
 					echo "$3	IN	A	$4" >> /etc/bind/zones/db.$5
 
                                         TEMPSERIALNUMB=$(grep -Po '(?<=SERIALNUMB=).*' /etc/bind/zones/db.$5)
