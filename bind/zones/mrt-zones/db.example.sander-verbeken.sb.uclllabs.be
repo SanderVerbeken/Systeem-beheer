@@ -1,3 +1,4 @@
+;this is an example file to test if my script works
 $TTL 300
 @ IN SOA ns.sander-verbeken.sb.uclllabs.be. host.sander-verbeken.sb.uclllabs.be. (
 5005  ; Serial

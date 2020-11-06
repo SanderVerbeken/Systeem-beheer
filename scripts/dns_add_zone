@@ -1,8 +1,11 @@
 #! /bin/sh
 
+#Wordt sudo gebruikt? dit moet gechekt worden.
+if [ ! $(sudo echo 0) ]; then exit; fi
+
 #Is er een vriable aanwezig? zo niet dan geeft men een error message terug
-if [ $# -eq 0 ]; then
-    echo "No arguments provided, you need to give us a subzone to create: zone "\""SUBZONE.sander-verbeken.sb.uclllabs.be"\"" { ..."
+if [ $# -ne 1 ]; then
+    echo "No or too many parameters provided, you need to give us a subzone to create: zone "\""SUBZONE.sander-verbeken.sb.uclllabs.be"\"" { ..."
     exit 1
 fi
 
@@ -18,11 +21,14 @@ touch /etc/bind/zones/mrt-zones/db.$1.sander-verbeken.sb.uclllabs.be
 #SOA record van deze zonefile aangemaakt en in de juiste zonefile gestopt
 echo "\$TTL 300
 @ IN SOA $1.sander-verbeken.sb.uclllabs.be. host.sander-verbeken.sb.uclllabs.be. (
-1 ; Serial
+5000 ; Serial
 300 ; Refresh
 300 ; Retry
 3000 ; Expire
 300) ; Default TTL
+
+;SERIALNUMB=5000
+
 ; NAME SERVERS
 @       IN      NS ns.sander-vebreken.sb.uclllabs.be.
 

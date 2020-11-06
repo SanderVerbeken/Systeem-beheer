@@ -1,3 +1,50 @@
 #! /bin/sh
-echo 'hallo'
 
+#to use this add record command, we need to ensure that the user uses sudo and check if he is allowed to use sudo
+if [ ! $(sudo echo 0) ]; then exit; fi
+
+if [ $# -eq 0 ]; then
+	echo "No arguments were given, no dns record was added"
+	exit 1
+fi
+
+if [ $1 = "-t" ]; then
+	case $2 in
+		"A") echo "A record given"
+			if [ $# -eq 5 ]; then
+				echo "you have 5 arguments, good"
+				exit 1
+			else	echo "You dont have the right amount of arguments given for adding an a record"
+				echo "It should be: dns_add_record -t A 'name of other subzone' 'x.x.x.x address om subzone te resolven' 'name of already existing subzone'"
+				exit 1
+			fi
+		;;
+		"CNAME") echo "CNAME given"
+			if [ $# -eq 4 ]; then
+				echo "you have 4 arguments, good"
+				exit 1
+			else 	echo "you dont have the right amount of arguments given for adding an CNAME record"
+				echo "should be like this: dns_add_record -t CNAME 'name of other subzone' 'name of existing subzone"
+				exit 1
+			fi
+		;;
+		"MX") echo "MX record given"
+			if [ $# -eq 5 ]; then
+				echo "you have 5 arguments, good"
+				exit 1
+			else	echo "you dont have the right amount of arguments to make an MX record"
+				echo "should be like this: dns_add_record -t MX 'name of subzone' 'x.x.x.x adress om subzone te resloven' 'name of already existing subzone file'"
+				exit 1
+			fi
+		;;
+		*) echo "You havent given a right record type as second argument";;
+	esac
+else 	echo "first no '-t' was given, i prosume you add an A record then"
+	if [ $# -eq  3 ]; then
+		echo "you have 3 arguments, good"
+	exit 1
+	else 	echo "you dont have the right amount of arguments for making an A record."
+		echo "you need 'name of other subzone' 'x.x.x.x address om subzone te resolven' 'name of already existing subzone'"
+	exit 1
+	fi
+fi
