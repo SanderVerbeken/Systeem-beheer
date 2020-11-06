@@ -2,5 +2,5 @@ mrt/
 backuptest*
 incron.d/
 ssl/
-#bind/named.conf.mrt-zones
-#bind/zones/mrt-zones/
+bind/named.conf.mrt-zones
+bind/zones/
