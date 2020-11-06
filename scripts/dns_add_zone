@@ -12,11 +12,11 @@ fi
 #In named.conf.mrt-zones wordt een nieuwe zone geadd aan de hand van de variable naam die mee wordt gegeven
 echo "zone "\""$1.sander-verbeken.sb.uclllabs.be"\"" {
 	type master;
-        file "\""/etc/bind/zones/mrt-zones/db.$1.sander-verbeken.sb.uclllabs.be"\"";
+        file "\""/etc/bind/zones/db.$1.sander-verbeken.sb.uclllabs.be"\"";
 };" >> /etc/bind/named.conf.mrt-zones
 
 #Als in de mrt-zones dir nog geen zone file bestaat met deze naam dan wordt deze aangemaakt
-touch /etc/bind/zones/mrt-zones/db.$1.sander-verbeken.sb.uclllabs.be
+touch /etc/bind/zones/db.$1.sander-verbeken.sb.uclllabs.be
 
 #SOA record van deze zonefile aangemaakt en in de juiste zonefile gestopt
 echo "\$TTL 300
@@ -32,15 +32,15 @@ echo "\$TTL 300
 ; NAME SERVERS
 @       IN      NS ns.sander-vebreken.sb.uclllabs.be.
 
-" > /etc/bind/zones/mrt-zones/db.$1.sander-verbeken.sb.uclllabs.be
+" > /etc/bind/zones/db.$1.sander-verbeken.sb.uclllabs.be
 
 #Men moet een ns record toevoegen voor delegatie, om deze veranderingen door te laten gaan moeten we uiteraard ook de serial number verhogen, anders worden veranderingen niet door gegeven.
-TEMPSERIALNUMB=$(grep -Po '(?<=SERIALNUMB=).*' /etc/bind/zones/db.sander-verbeken)
+TEMPSERIALNUMB=$(grep -Po '(?<=SERIALNUMB=).*' /etc/bind/zones/db.sander-verbeken.sb.uclllabs.be)
 NEWSERIALNUMB=$((TEMPSERIALNUMB+1))
-sed -i "s/$TEMPSERIALNUMB/$NEWSERIALNUMB/g" /etc/bind/zones/db.sander-verbeken
+sed -i "s/$TEMPSERIALNUMB/$NEWSERIALNUMB/g" /etc/bind/zones/db.sander-verbeken.sb.uclllabs.be
 
 #NS record toevoegen aan mijn al bestaande zone file (db.sander-verbeken)
-echo "$1	IN	NS	ns" >> /etc/bind/zones/db.sander-verbeken
+echo "$1	IN	NS	ns" >> /etc/bind/zones/db.sander-verbeken.sb.uclllabs.be
 
 #Nu dat alles is ingesteld en aangepast moeten we de service restarten om alle aanpassingen door te geven.
 systemctl restart bind9.service

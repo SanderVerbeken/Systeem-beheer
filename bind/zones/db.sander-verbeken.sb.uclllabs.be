@@ -1,7 +1,6 @@
-;this is an example file to test if my script works
 $TTL 300
 @ IN SOA ns.sander-verbeken.sb.uclllabs.be. host.sander-verbeken.sb.uclllabs.be. (
-5005  ; Serial
+5007  ; Serial
 300 ; Refresh
 300 ; Retry
 3000 ; Expire
@@ -17,7 +16,7 @@ ns      IN      A 193.191.197.206
 www     IN      A 193.191.197.206
 test    IN      A 193.191.197.254
 
-;SERIALNUMB=5005
+;SERIALNUMB=5007
 
 ;Added by mrt
 

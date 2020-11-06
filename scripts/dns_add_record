@@ -13,6 +13,19 @@ if [ $1 = "-t" ]; then
 		"A") echo "A record given"
 			if [ $# -eq 5 ]; then
 				echo "you have 5 arguments, good"
+				FILE=/etc/bind/zones/mrt-zones/db.$5
+				if [ -f $FILE ]; then
+					echo "zone file exists"
+					echo "$3	IN	A	$4" >> /etc/bind/zones/mrt-zones/db.$5
+
+					TEMPSERIALNUMB=$(grep -Po '(?<=SERIALNUMB=).*' /etc/bind/zones/mrt-zones/db.$5)
+					NEWSERIALNUMB=$((TEMPSERIALNUMB+1))
+					sed -i "s/$TEMPSERIALNUMB/$NEWSERIALNUMB/g" /etc/bind/zones/mrt-zones/db.$5
+
+					exit 1
+				else 	echo "$5 is not an existing zone"
+					exit 1
+				fi
 				exit 1
 			else	echo "You dont have the right amount of arguments given for adding an a record"
 				echo "It should be: dns_add_record -t A 'name of other subzone' 'x.x.x.x address om subzone te resolven' 'name of already existing subzone'"
@@ -22,6 +35,20 @@ if [ $1 = "-t" ]; then
 		"CNAME") echo "CNAME given"
 			if [ $# -eq 4 ]; then
 				echo "you have 4 arguments, good"
+				FILE=/etc/bind/zones/mrt-zones/db.$4
+				if [ -f "$FILE" ]; then
+                                        echo "zone file exists"
+
+					echo "$3		CNAME	@" >> /etc/bind/zones/mrt-zones/db.$4
+
+                                        TEMPSERIALNUMB=$(grep -Po '(?<=SERIALNUMB=).*' /etc/bind/zones/mrt-zones/db.$4)                                        NEWSERIALNUMB=$((TEMPSERIALNUMB+1))
+                                        sed -i "s/$TEMPSERIALNUMB/$NEWSERIALNUMB/g" /etc/bind/zones/mrt-zones/db.$4
+
+
+                                        exit 1
+                                else    echo "$4 is not an existing zone"
+                                        exit 1
+                                fi
 				exit 1
 			else 	echo "you dont have the right amount of arguments given for adding an CNAME record"
 				echo "should be like this: dns_add_record -t CNAME 'name of other subzone' 'name of existing subzone"
@@ -31,6 +58,14 @@ if [ $1 = "-t" ]; then
 		"MX") echo "MX record given"
 			if [ $# -eq 5 ]; then
 				echo "you have 5 arguments, good"
+				FILE=/etc/bind/zones/mrt-zones/db.$5
+				if [ -f "$FILE" ]; then
+                                        echo "zone file exists"
+
+                                        exit 1
+                                else    echo "$5 is not an existing zone"
+                                        exit 1
+                                fi
 				exit 1
 			else	echo "you dont have the right amount of arguments to make an MX record"
 				echo "should be like this: dns_add_record -t MX 'name of subzone' 'x.x.x.x adress om subzone te resloven' 'name of already existing subzone file'"
@@ -42,6 +77,19 @@ if [ $1 = "-t" ]; then
 else 	echo "first no '-t' was given, i prosume you add an A record then"
 	if [ $# -eq  3 ]; then
 		echo "you have 3 arguments, good"
+		FILE=/etc/bind/zones/mrt-zones/db.$3
+                                if [ -f $FILE ]; then
+                                        echo "zone file exists"
+
+                                        echo "$1	IN      A       $2" >> /etc/bind/zones/mrt-zones/db.$3
+
+                                        TEMPSERIALNUMB=$(grep -Po '(?<=SERIALNUMB=).*' /etc/bind/zones/mrt-zones/db.$3)                                        NEWSERIALNUMB=$((TEMPSERIALNUMB+1))
+                                        sed -i "s/$TEMPSERIALNUMB/$NEWSERIALNUMB/g" /etc/bind/zones/mrt-zones/db.$3
+
+                                        exit 1
+                                else    echo "$3 is not an existing zone"
+                                        exit 1
+                                fi
 	exit 1
 	else 	echo "you dont have the right amount of arguments for making an A record."
 		echo "you need 'name of other subzone' 'x.x.x.x address om subzone te resolven' 'name of already existing subzone'"
