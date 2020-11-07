@@ -42,7 +42,8 @@ if [ $1 = "-t" ]; then
 
 					echo "$3		CNAME	@" >> /etc/bind/zones/db.$4
 
-                                        TEMPSERIALNUMB=$(grep -Po '(?<=SERIALNUMB=).*' /etc/bind/zones/db.$4)                                        NEWSERIALNUMB=$((TEMPSERIALNUMB+1))
+                                        TEMPSERIALNUMB=$(grep -Po '(?<=SERIALNUMB=).*' /etc/bind/zones/db.$4)
+                                        NEWSERIALNUMB=$((TEMPSERIALNUMB+1))
                                         sed -i "s/$TEMPSERIALNUMB/$NEWSERIALNUMB/g" /etc/bind/zones/db.$4
 					systemctl restart bind9.service
 
@@ -92,7 +93,8 @@ else 	echo "first no '-t' was given, i prosume you add an A record then"
 
                                         echo "$1	IN      A       $2" >> /etc/bind/zones/db.$3
 
-                                        TEMPSERIALNUMB=$(grep -Po '(?<=SERIALNUMB=).*' /etc/bind/zones/db.$3)                                        NEWSERIALNUMB=$((TEMPSERIALNUMB+1))
+                                        TEMPSERIALNUMB=$(grep -Po '(?<=SERIALNUMB=).*' /etc/bind/zones/db.$3)
+                                        NEWSERIALNUMB=$((TEMPSERIALNUMB+1))
                                         sed -i "s/$TEMPSERIALNUMB/$NEWSERIALNUMB/g" /etc/bind/zones/db.$3
 					systemctl restart bind9.service
 
