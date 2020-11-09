@@ -6,9 +6,39 @@ if [ ! $(sudo echo 0) ]; then exit; fi
 #the command zorks only if the user has one argument, the domain
 if [ $# -eq 1 ]; then
         echo "1 argument, good"
-	
+
 	cutteddomain="$(echo $1 | cut -d'.' -f1)"
-	echo $cutteddomain
+	cuttedzone="$(echo $1 | cut -d'.' -f2)"
+	#echo $cuttedzone
+
+	if [ $cuttedzone = "sander-verbeken" ]; then
+		file="db.sander-verbeken.sb.uclllabs.be"
+		filewithzone="$cutteddomain.sander-verbeken.sb.uclllabs.be"
+	else
+		file="db.$cuttedzone.sander-verbeken.sb.uclllabs.be"
+		filewithzone="$cutteddomain.sander-verbeken.sb.uclllabs.be"
+	fi
+	echo $file
+
+	#First we will check if this domain exists in our dns configuration:
+	if grep -w /etc/bind/zones/$file -e $cutteddomain -q
+	then
+		echo "subdomain $cutteddomain found in zone $cuttedzone"
+
+		#so we found the domain now we can start making stuff
+
+		#first make the directory in /var/www/...
+
+		mkdir /var/www/$filewithzone
+
+		#make the index.html file in the made directory
+
+		touch /var/www/$filewithzone/index.html
+
+	else 	echo "didnt find this domain"
+		exit 1
+	fi
+
         exit 1
 else 	echo "No arguments or too many were given, you only need one for this, no vhost was created"
 	exit 1
