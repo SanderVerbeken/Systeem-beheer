@@ -14,11 +14,13 @@ if [ $# -eq 1 ]; then
 	if [ $cuttedzone = "sander-verbeken" ]; then
 		file="db.sander-verbeken.sb.uclllabs.be"
 		filewithzone="$cutteddomain.sander-verbeken.sb.uclllabs.be"
+		vhost_name="$cutteddomain"
 	else
 		file="db.$cuttedzone.sander-verbeken.sb.uclllabs.be"
-		filewithzone="$cutteddomain.sander-verbeken.sb.uclllabs.be"
+		filewithzone="$cutteddomain.$cuttedzone.sander-verbeken.sb.uclllabs.be"
+		vhost_name="$cutteddomain.$cuttedzone"
 	fi
-	echo $file
+	#echo $file
 
 	#First we will check if this domain exists in our dns configuration:
 	if grep -w /etc/bind/zones/$file -e $cutteddomain -q
@@ -31,9 +33,37 @@ if [ $# -eq 1 ]; then
 
 		mkdir /var/www/$filewithzone
 
-		#make the index.html file in the made directory
+		#make the index.html file in the made directory and put the right text into it
 
 		touch /var/www/$filewithzone/index.html
+		echo "<html><p>welcome $vhost_name</p></html>" > /var/www/$filewithzone/index.html
+
+		#now we need to make all the right files in the /etc/apache2/... folders
+
+		#Lets make the .conf file in /etc/apache2/sites-available
+
+		touch /etc/apache2/sites-available/$filewithzone.conf
+
+echo "<VirtualHost *:80>
+	ServerAdmin webmaster@localhost
+	DocumentRoot /var/www/$filewithzone
+
+	ServerName sander-verbeken.sb.uclllabs.be
+	ServerAlias $filewithzone
+
+	ErrorLog \${APACHE_LOG_DIR}/$filewithzone.conf.error.log
+	CustomLog \${APACHE_LOG_DIR}/$filewithzone.conf.access.log combined
+</VirtualHost>" > /etc/apache2/sites-available/$filewithzone.conf
+
+		#enable the site
+
+		a2ensite $filewithzone.conf
+
+		#Lets do a apache restart to let everything work
+
+		systemctl restart apache2.service
+
+		#Done :) (i hope) everything shouldve worked if the code reached it till here.
 
 	else 	echo "didnt find this domain"
 		exit 1
