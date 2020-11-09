@@ -1,0 +1,15 @@
+#! /bin/sh
+
+#is the user using sudo?
+if [ ! $(sudo echo 0) ]; then exit; fi
+
+#the command zorks only if the user has one argument, the domain
+if [ $# -eq 1 ]; then
+        echo "1 argument, good"
+	
+	cutteddomain="$(echo $1 | cut -d'.' -f1)"
+	echo $cutteddomain
+        exit 1
+else 	echo "No arguments or too many were given, you only need one for this, no vhost was created"
+	exit 1
+fi
