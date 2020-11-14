@@ -1,0 +1,10 @@
+#! /bin/sh
+
+DBu='check'
+DBp='rDEetGxq82DCE'
+DBn='check'
+DBt='log'
+
+result=$(mysql -N --user=$DBu --password=$DBp $DBn -e "SELECT text from log where id = (select max(id) from log)")
+
+echo "$result" > /var/www/sander-verbeken.sb.uclllabs.be/mysql_check.php
