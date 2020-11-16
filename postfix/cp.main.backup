@@ -11,14 +11,11 @@ append_dot_mydomain = no
 
 alias_maps = hash:/etc/aliases
 alias_database = hash:/etc/aliases
-mydestination = sander-verbeken.localdomain, mx.sander-verbeken.sb.uclllabs.be,  localhost.localdomain, localhost
+mydestination = $myhostname, localhost.$mydomain, localhost
 relayhost = 
 mynetworks = 127.0.0.0/8
-inet_interfaces = all
+inet_interfaces = loopback-only
 recipient_delimiter = +
 
 compatibility_level = 2
 
-myorigin = /etc/mailname
-mailbox_size_limit = 0
-inet_protocols = all
