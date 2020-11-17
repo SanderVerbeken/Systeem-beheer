@@ -1,3 +1,6 @@
 postmaster: root
 webmaster: root
 root: root
+
+user1: localuser
+user2: localuser
