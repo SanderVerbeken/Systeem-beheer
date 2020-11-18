@@ -11,7 +11,7 @@ append_dot_mydomain = no
 
 alias_maps = hash:/etc/aliases
 alias_database = hash:/etc/aliases
-mydestination = sander-verbeken.localdomain, sander-verbeken.sb.uclllabs,  localhost.localdomain, localhost
+mydestination = $myhostname, mx.sander-verbeken.sb.uclllabs.be, localhost.sander-verbeken.sb.uclllabs.be, localhost
 relayhost = 
 mynetworks = 127.0.0.0/8
 inet_interfaces = all
@@ -23,6 +23,27 @@ myorigin = /etc/mailname
 mailbox_size_limit = 0
 inet_protocols = all
 
-virtual_alias_domains = sander-verbeken.sb.uclllabs.be
+# Parameters that i added myself. Starting from here:
+#-------------------------------------------------
 
 mydomain = sander-verbeken.sb.uclllabs.be
+
+myhostname = mx.sander-verbeken.sb.uclllabs.be
+
+#TLS parameters ???
+
+smtpd_tls_cert_file=/etc/dovecot/dovecot.pem
+smtpd_tls_key_file=/etc/dovecot/dovecot.pem
+smtpd_use_tls=yes
+smtpd_tls_auth_only = yes
+
+smtpd_sasl_type = dovecot
+smtpd_sasl_path = private/auth
+smtpd_sasl_auth_enable = yes
+smtpd_recipient_restrictions = permit_sasl_authenticated, permit_mynetworks, reject_unauth_destination
+
+virtual_transport = lmtp:unix:private/dovecot-lmtp
+
+virtual_mailbox_domains = mysql:/etc/postfix/mysql-virtual-mailbox-domains.cf
+virtual_mailbox_maps = mysql:/etc/postfix/mysql-virtual-mailbox-maps.cf
+virtual_alias_maps = mysql:/etc/postfix/mysql-virtual-alias-maps.cf
