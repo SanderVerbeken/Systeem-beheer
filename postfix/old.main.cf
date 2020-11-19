@@ -1,0 +1,49 @@
+# See /usr/share/postfix/main.cf.dist for a commented, more complete version
+
+smtpd_banner = $hostname ESMTP $mail_name (Debian/GNU)
+biff = no
+
+# appending .domain is the MUA's job.
+append_dot_mydomain = no
+
+# Uncomment the next line to generate "delayed mail" warnings
+#delay_warning_time = 4h
+
+alias_maps = hash:/etc/aliases
+alias_database = hash:/etc/aliases
+mydestination = mx.sander-verbeken.sb.uclllabs.be, $hostname , localhost.sander-verbeken.sb.uclllabs.be, localhost
+relayhost = 
+mynetworks = 127.0.0.1/32 193.191.177.206/32 [::1]/128 [fe80::70b3:5ff:febe:5ef9]/128
+inet_interfaces = all
+recipient_delimiter = +
+
+compatibility_level = 2
+
+myorigin = /etc/mailname
+mailbox_size_limit = 0
+inet_protocols = all
+
+# Parameters that i added myself. Starting from here:
+#-------------------------------------------------
+
+hostname = sander-verbeken.sb.uclllabs.be
+
+relay_domains = 
+
+#TLS parameters ???
+
+smtpd_tls_cert_file=/etc/dovecot/dovecot.pem
+smtpd_tls_key_file=/etc/dovecot/dovecot.pem
+smtpd_use_tls=yes
+smtpd_tls_auth_only = yes
+smtpd_sasl_type = dovecot
+smtpd_sasl_path = private/auth
+smtpd_sasl_auth_enable = yes
+smtpd_recipient_restrictions = permit_sasl_authenticated, permit_mynetworks, reject_unauth_destination
+
+virtual_mailbox_domains = $hostname
+virtual_transport = lmtp:unix:private/dovecot-lmtp
+
+local_transport = virtual
+
+
