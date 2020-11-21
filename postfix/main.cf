@@ -21,9 +21,12 @@ compatibility_level = 2
 
 myhostname = mx.sander-verbeken.sb.uclllabs.be
 
-virtual_transport = lmtp:unix:private/dovecot-lmtp
+virtual_transport = lmtp:unix:private/dovecot-
 
 smtpd_recipient_restrictions = permit_sasl_authenticated, permit_mynetworks, reject_unauth_destination
 
 virtual_mailbox_domains = sander-verbeken.sb.uclllabs.be
 
+myorigin = /etc/mailname
+mailbox_size_limit = 0
+inet_protocols = all
