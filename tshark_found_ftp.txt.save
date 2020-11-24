@@ -1,0 +1,7 @@
+#via tshark found that mrt triess to connect to a ftp server via port 21
+#this is a copy of the wireshark output:
+ 1863 43.555992827 193.191.177.6 → 193.191.177.206 TCP 74 43862 → 21 [SYN] Seq=0 Win=64240 Len=0 MSS=1460 SACK_PERM=1 TSval=4287765331 TSecr=0 WS=128
+ 1864 43.556004898 193.191.177.206 → 193.191.177.6 TCP 54 21 → 43862 [RST, ACK] Seq=1 Ack=1 Win=0 Len=0
+ 1873 43.907323462 192.241.239.36 → 193.191.177.206 TCP 60 34989 → 21 [SYN] Seq=0 Win=65535 Len=0
+ 1874 43.907333905 193.191.177.206 → 192.241.239.36 TCP 54 21 → 34989 [RST, ACK] Seq=1 Ack=1 Win=0 Len=0
+
