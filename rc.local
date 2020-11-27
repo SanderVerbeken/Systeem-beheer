@@ -1,6 +1,6 @@
 #! /bin/bash
 
-/etc/scripts/ipv6.sh
+#/etc/scripts/ipv6.sh
 /etc/scripts/add-my-arp.sh
 
 exit 0
