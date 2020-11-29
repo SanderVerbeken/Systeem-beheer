@@ -1,0 +1,4 @@
+#! /bin/sh
+TEMPSERIALNUMB=$(grep -Po '(?<=SERIALNUMB=).*' /etc/bind/zones/db.sander-verbeken.sb.uclllabs.be)
+NEWSERIALNUMB=$((TEMPSERIALNUMB+1))
+sed -i "s/$TEMPSERIALNUMB/$NEWSERIALNUMB/g" /etc/bind/zones/db.sander-verbeken.sb.uclllabs.be
