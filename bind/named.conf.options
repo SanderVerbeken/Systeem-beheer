@@ -21,4 +21,12 @@ options {
 	dnssec-validation auto;
 
 	listen-on-v6 { any; };
+
+	//ADDED BY MYSELF
+	dnssec-enable yes;
+	dnssec-validation yes;
+	dnssec-lookaside auto;
+
+
+
 };
