@@ -25,7 +25,7 @@ options {
 	//ADDED BY MYSELF
 	//dnssec-enable yes;
 	dnssec-validation yes;
-	dnssec-lookaside auto;
+	//dnssec-lookaside auto;
 
 
 
