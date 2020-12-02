@@ -66,3 +66,5 @@ stunnel4:x:123:
 ftp:x:124:
 sander:x:1001:
 freerad:x:125:
+redis:x:126:
+ntopng:x:127:

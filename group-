@@ -40,7 +40,7 @@ nogroup:x:65534:
 crontab:x:101:
 messagebus:x:102:
 syslog:x:103:
-ssl-cert:x:104:
+ssl-cert:x:104:freerad
 input:x:105:
 kvm:x:106:
 render:x:107:
@@ -66,3 +66,4 @@ stunnel4:x:123:
 ftp:x:124:
 sander:x:1001:
 freerad:x:125:
+redis:x:126:
