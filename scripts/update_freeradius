@@ -29,8 +29,10 @@ hash=`git log -n 1 --pretty=format:%h`
         --prefix="/usr/local/freeradius-$hash" \
         --mandir=/usr/share/man \
         --localstatedir=/var \
-        --disable-developer
-#       --with-openssl \                                # default now
+        --disable-developer \
+	--with-openssl=no \
+	--with-talloc-lib-dir=/usr/local/src/talloc-2.3.0
+
 make
 make install
 
