@@ -1,5 +1,9 @@
 #!/bin/sh
 
+
+#check if user is using sudo
+if [ ! $(sudo echo 0) ]; then exit; fi
+
 # fix debian /usr/local sgid stuff
 chmod g-s /usr/local
 chgrp root /usr/local
