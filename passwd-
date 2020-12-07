@@ -39,5 +39,5 @@ ftp:x:116:124:ftp daemon,,,:/srv/ftp:/usr/sbin/nologin
 sander:x:1001:1001:Sander,,,:/home/sander:/bin/bash
 freerad:x:117:125::/etc/freeradius:/usr/sbin/nologin
 redis:x:118:126::/var/lib/redis:/usr/sbin/nologin
-ntopng:x:119:127::/var/lib/ntopng:/usr/sbin/nologin
 n2n:x:998:998::/home/n2n:/bin/false
+ntopng:x:119:127::/var/lib/ntopng:/usr/sbin/nologin
