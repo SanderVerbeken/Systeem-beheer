@@ -1,0 +1,26 @@
+#!/bin/bash
+
+function stop() {
+        iptables-restore /etc/iptables/iptables.empty
+        ip6tables-restore /etc/iptables/ip6tables.empty
+}
+
+function start() {
+        iptables-restore /etc/iptables/iptables.rules
+        ip6tables-restore /etc/iptables/ip6tables.rules
+}
+
+case $1 in
+start)
+        start
+        ;;
+stop)
+        stop
+        ;;
+restart)
+        stop
+        start
+        ;;
+*)
+        exit 1;
+esac
